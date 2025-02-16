@@ -38,8 +38,10 @@ document.addEventListener("DOMContentLoaded", function () {
         container.classList.add('perfect');
       }
       container.innerHTML = `
-        <h3>Your Score: ${score} / ${quizData.length}</h3>
-        <button class="quiz-restart">Restart Quiz</button>
+        <h3>${score} / ${quizData.length}</h3>
+        <button class="quiz-restart">
+          <img src="https://cdn.prod.website-files.com/6558ae529e9653f7d61a6917/67b212cc96f0dbcc969ef511_restart_alt_24dp_000000_FILL0_wght600_GRAD0_opsz24.svg" alt="Restart">
+        </button>
       `;
       container.querySelector('.quiz-restart').addEventListener('click', function() {
         currentQuestion = 0;

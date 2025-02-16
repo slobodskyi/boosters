@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function () {
         html += `<button class="quiz-btn" data-index="${index}">${answer}</button>`;
       });
       container.innerHTML = html;
-      // Attach click event listeners to each answer button
+      // Attach click event listeners to each answer button1
       container.querySelectorAll('.quiz-btn').forEach(function(button) {
         button.addEventListener('click', function() {
           selectAnswer(parseInt(this.getAttribute('data-index')));

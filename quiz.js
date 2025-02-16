@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const texts = {
     en: { result: "Results:", restart: "Restart" },
     ru: { result: "Результат:", restart: "Еще раз" },
-    ua: { result: "Результат", restart: "Ще раз" }
+    ua: { result: "Результат:", restart: "Ще раз" }
   };
 
   const quizContainers = document.querySelectorAll('.quiz-container');
@@ -34,9 +34,17 @@ document.addEventListener("DOMContentLoaded", function () {
         html += `<button class="quiz-btn" data-index="${index}">${answer}</button>`;
       });
       container.innerHTML = html;
-      // Attach click listeners to answer buttons
+      // Attach click listeners to each answer button
       container.querySelectorAll('.quiz-btn').forEach(function(button) {
         button.addEventListener('click', function() {
+          // Send a GA4 event on quiz button click
+          if (typeof gtag === 'function') {
+            gtag('event', 'quiz_click', {
+              event_category: 'quiz',
+              event_label: `question_${currentQuestion}`, // You can customize this label
+              value: 1
+            });
+          }
           selectAnswer(parseInt(this.getAttribute('data-index')));
         });
       });

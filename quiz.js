@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", function () {
           if (typeof gtag === 'function') {
             gtag('event', 'quiz_click', {
               event_category: 'quiz',
-              event_label: `question_${currentQuestion}`, // You can customize this label
+              event_label: `question_${currentQuestion}`,
               value: 1
             });
           }
@@ -50,12 +50,25 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     }
 
+    // Animate background color feedback: green if correct, red if incorrect
+    function animateFeedback(isCorrect) {
+      container.style.transition = "background-color 0.5s ease";
+      container.style.backgroundColor = isCorrect ? "green" : "red";
+      setTimeout(function() {
+        container.style.backgroundColor = "";
+      }, 500);
+    }
+
     function selectAnswer(selectedIndex) {
-      if (selectedIndex === quizData[currentQuestion].correct) {
+      var isCorrect = (selectedIndex === quizData[currentQuestion].correct);
+      if (isCorrect) {
         score++;
       }
+      animateFeedback(isCorrect);
       currentQuestion++;
-      loadQuestion();
+      setTimeout(function() {
+        loadQuestion();
+      }, 600);
     }
 
     function showResult() {

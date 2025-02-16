@@ -1,23 +1,12 @@
 document.addEventListener("DOMContentLoaded", function () {
   const quizContainers = document.querySelectorAll('.quiz-container');
-  
   quizContainers.forEach(function(container) {
-    // Debug: log container and its data attribute
-    console.log("Found quiz container:", container);
-    const dataString = container.getAttribute('data-quiz');
-    console.log("Quiz data string:", dataString);
-    
-    let quizData;
-    try {
-      quizData = JSON.parse(dataString);
-    } catch (e) {
-      console.error("Error parsing quiz data:", e);
-      return; // Stop execution for this container if parsing fails
-    }
-    
+    // Parse quiz data from the data-quiz attribute
+    const quizData = JSON.parse(container.getAttribute('data-quiz'));
     let currentQuestion = 0;
     let score = 0;
-    
+
+    // Function to load and display a question
     function loadQuestion() {
       if (currentQuestion >= quizData.length) {
         showResult();
@@ -29,14 +18,14 @@ document.addEventListener("DOMContentLoaded", function () {
         html += `<button class="quiz-btn" data-index="${index}">${answer}</button>`;
       });
       container.innerHTML = html;
-      // Attach click event listeners to each answer button1
       container.querySelectorAll('.quiz-btn').forEach(function(button) {
         button.addEventListener('click', function() {
           selectAnswer(parseInt(this.getAttribute('data-index')));
         });
       });
     }
-    
+
+    // Function to process the selected answer
     function selectAnswer(selectedIndex) {
       if (selectedIndex === quizData[currentQuestion].correct) {
         score++;
@@ -44,12 +33,21 @@ document.addEventListener("DOMContentLoaded", function () {
       currentQuestion++;
       loadQuestion();
     }
-    
+
+    // Function to display the final result and trigger confetti if perfect
     function showResult() {
-      // If perfect score, add celebration animation class
+      // If perfect score, trigger confetti animation
       if (score === quizData.length) {
         container.classList.add('perfect');
+        if (typeof confetti === 'function') {
+          confetti({
+            particleCount: 100,
+            spread: 70,
+            origin: { y: 0.6 }
+          });
+        }
       }
+      // Display the score and a restart button (with an icon)
       container.innerHTML = `
         <h3>${score} / ${quizData.length}</h3>
         <button class="quiz-restart">
@@ -63,7 +61,7 @@ document.addEventListener("DOMContentLoaded", function () {
         loadQuestion();
       });
     }
-    
+
     // Start the quiz
     loadQuestion();
   });

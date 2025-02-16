@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
   
   quizContainers.forEach(function(container) {
     // Set a default border on the container (5px solid black) and transition for border-color
-    container.style.border = "5px solid black";
+    container.style.border = "4px solid black";
     container.style.transition = "border-color 0.1s ease-out";
     
     // Parse quiz data from the data-quiz attribute
@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded", function () {
       currentQuestion++;
       setTimeout(function() {
         loadQuestion();
-      }, 600);
+      }, 300);
     }
 
     function showResult() {

@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
   
   quizContainers.forEach(function(container) {
     // Set a default border on the container (5px solid black) and transition for border-color
-    container.style.border = "4px solid black";
+    container.style.border = "5px solid black";
     container.style.transition = "border-color 0.1s ease-out";
     
     // Parse quiz data from the data-quiz attribute
@@ -75,6 +75,14 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function showResult() {
+      let imageHtml = "";
+      // If the score is not perfect, show the "try again" image above the results
+      if (score !== quizData.length) {
+        imageHtml = `<div style="text-align:center; margin-bottom:15px;">
+                       <img src="https://cdn.prod.website-files.com/6558ae529e9653f7d61a6917/67b255ce040723aed51313f9_try-again-quiz.webp" alt="Try Again" style="max-width:100%;"/>
+                     </div>`;
+      }
+      
       // If perfect score, trigger confetti animation (if available)
       if (score === quizData.length && typeof confetti === 'function') {
         confetti({
@@ -83,8 +91,9 @@ document.addEventListener("DOMContentLoaded", function () {
           origin: { y: 0.6 }
         });
       }
-      // Display the localized result text and restart button
+      // Display the localized result text and restart button, with the image (if applicable)
       container.innerHTML = `
+        ${imageHtml}
         <h3>${texts[currentLocale].result} ${score} / ${quizData.length}</h3>
         <button class="quiz-restart">${texts[currentLocale].restart}</button>
       `;

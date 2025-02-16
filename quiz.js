@@ -52,8 +52,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Animate background color feedback: green if correct, red if incorrect
     function animateFeedback(isCorrect) {
-      container.style.transition = "background-color 0.5s ease";
-      container.style.backgroundColor = isCorrect ? "green" : "red";
+      container.style.transition = "background-color 0.1s ease-in";
+      container.style.backgroundColor = isCorrect ? "#D3FF75" : "#FF7575";
       setTimeout(function() {
         container.style.backgroundColor = "";
       }, 500);

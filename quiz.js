@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const texts = {
     en: { result: "Results:", restart: "Restart" },
     ru: { result: "Результат:", restart: "Еще раз" },
-    ua: { result: "Результат:", restart: "Ще раз" }
+    ua: { result: "Результат", restart: "Ще раз" }
   };
 
   const quizContainers = document.querySelectorAll('.quiz-container');

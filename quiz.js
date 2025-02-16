@@ -18,6 +18,10 @@ document.addEventListener("DOMContentLoaded", function () {
   const quizContainers = document.querySelectorAll('.quiz-container');
   
   quizContainers.forEach(function(container) {
+    // Set a default border on the container (5px solid black) and transition for border-color
+    container.style.border = "5px solid black";
+    container.style.transition = "border-color 0.3s ease-in-out";
+    
     // Parse quiz data from the data-quiz attribute
     const quizData = JSON.parse(container.getAttribute('data-quiz'));
     let currentQuestion = 0;
@@ -37,7 +41,7 @@ document.addEventListener("DOMContentLoaded", function () {
       // Attach click listeners to each answer button
       container.querySelectorAll('.quiz-btn').forEach(function(button) {
         button.addEventListener('click', function() {
-          // Send a GA4 event on quiz button click
+          // Send a GA4 event on quiz button click, if available
           if (typeof gtag === 'function') {
             gtag('event', 'quiz_click', {
               event_category: 'quiz',
@@ -50,13 +54,12 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     }
 
-    // Animate background color feedback: green if correct, red if incorrect
+    // Animate border feedback: correct -> green, wrong -> red, then revert
     function animateFeedback(isCorrect) {
-      container.style.transition = "background-color 0.1s ease-in";
-      container.style.backgroundColor = isCorrect ? "#D3FF75" : "#FF7575";
+      container.style.borderColor = isCorrect ? "#D3FF75" : "#FF7575";
       setTimeout(function() {
-        container.style.backgroundColor = "";
-      }, 500);
+        container.style.borderColor = "black";
+      }, 600);
     }
 
     function selectAnswer(selectedIndex) {

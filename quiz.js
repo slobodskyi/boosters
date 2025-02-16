@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
   quizContainers.forEach(function(container) {
     // Set a default border on the container (5px solid black) and transition for border-color
     container.style.border = "4px solid black";
-    container.style.transition = "border-color 0.3s ease-out";
+    container.style.transition = "border-color 0.1s ease-out";
     
     // Parse quiz data from the data-quiz attribute
     const quizData = JSON.parse(container.getAttribute('data-quiz'));

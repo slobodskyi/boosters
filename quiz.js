@@ -19,8 +19,8 @@ document.addEventListener("DOMContentLoaded", function () {
   
   quizContainers.forEach(function(container) {
     // Set a default border on the container (5px solid black) and transition for border-color
-    container.style.border = "3px solid black";
-    container.style.transition = "border-color 0.1s ease-out";
+    container.style.border = "4px solid black";
+    container.style.transition = "border-color 0.4s ease-out";
     
     // Parse quiz data from the data-quiz attribute
     const quizData = JSON.parse(container.getAttribute('data-quiz'));
@@ -75,7 +75,7 @@ document.addEventListener("DOMContentLoaded", function () {
       currentQuestion++;
       setTimeout(function() {
         loadQuestion();
-      }, 600);
+      }, 400);
     }
 
     function showResult() {
@@ -97,7 +97,7 @@ document.addEventListener("DOMContentLoaded", function () {
       // On result screen, display localized "Results:" text and the score; question counter area is replaced by results.
       container.innerHTML = `
         ${imageHtml}
-        <div class="question-counter" style="font-size: 23px; margin-bottom: 10px; color:#878787;">
+        <div class="question-counter" style="font-size: 23px;text-align:center; margin-bottom: 10px; color:#878787;">
           ${texts[currentLocale].result}
         </div>
         <h3 style="text-align: center;">${score} / ${quizData.length}</h3>

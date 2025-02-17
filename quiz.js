@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
   quizContainers.forEach(function(container) {
     // Set a default border on the container (5px solid black) and transition for border-color
     container.style.border = "5px solid black";
-    container.style.transition = "border-color 0.3s ease-in-out";
+    container.style.transition = "border-color 0.2s ease-out";
     
     // Parse quiz data from the data-quiz attribute
     const quizData = JSON.parse(container.getAttribute('data-quiz'));
@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", function () {
       container.style.borderColor = isCorrect ? "#D3FF75" : "#FF7575";
       setTimeout(function() {
         container.style.borderColor = "black";
-      }, 600);
+      }, 300);
     }
 
     function selectAnswer(selectedIndex) {

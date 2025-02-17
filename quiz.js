@@ -8,19 +8,19 @@ document.addEventListener("DOMContentLoaded", function () {
     currentLocale = 'ua';
   }
   
-  // Localized texts for the results and restart button
+  // Localized texts for the results, restart button, and question counter
   const texts = {
-    en: { result: "Results:", restart: "Restart" },
-    ru: { result: "Результат:", restart: "Еще раз" },
-    ua: { result: "Результат:", restart: "Ще раз" }
+    en: { result: "Results:", restart: "Restart", questionCounter: "Question:" },
+    ru: { result: "Результат:", restart: "Еще раз", questionCounter: "Вопрос:" },
+    ua: { result: "Результат:", restart: "Ще раз", questionCounter: "Питання:" }
   };
 
   const quizContainers = document.querySelectorAll('.quiz-container');
   
   quizContainers.forEach(function(container) {
     // Set a default border on the container (5px solid black) and transition for border-color
-    container.style.border = "5px solid black";
-    container.style.transition = "border-color 0.2s ease-out";
+    container.style.border = "3px solid black";
+    container.style.transition = "border-color 0.1s ease-out";
     
     // Parse quiz data from the data-quiz attribute
     const quizData = JSON.parse(container.getAttribute('data-quiz'));
@@ -33,9 +33,9 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
       }
       const currentItem = quizData[currentQuestion];
-      // Add question counter above the question title
-      let html = `<div class="question-counter" style="font-size: 23px; margin-bottom: 10px; color: #878787">
-                    Question: ${currentQuestion + 1} / ${quizData.length}
+      // Add localized question counter above the question title
+      let html = `<div class="question-counter" style="font-size: 23px; color:#878787; margin-bottom: 10px;">
+                    ${texts[currentLocale].questionCounter} ${currentQuestion + 1} / ${quizData.length}
                   </div>`;
       html += `<h3>${currentItem.question}</h3>`;
       currentItem.answers.forEach((answer, index) => {
@@ -58,12 +58,12 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     }
 
-    // Animate border feedback: green for correct, red for wrong, then revert back to black
+    // Animate border feedback: correct -> green, wrong -> red, then revert back to black
     function animateFeedback(isCorrect) {
       container.style.borderColor = isCorrect ? "#D3FF75" : "#FF7575";
       setTimeout(function() {
         container.style.borderColor = "black";
-      }, 300);
+      }, 600);
     }
 
     function selectAnswer(selectedIndex) {
@@ -94,10 +94,10 @@ document.addEventListener("DOMContentLoaded", function () {
           origin: { y: 0.6 }
         });
       }
-      // On result screen, change the question counter area to display "Results:" in Arial 36px, then show the score
+      // On result screen, display localized "Results:" text and the score; question counter area is replaced by results.
       container.innerHTML = `
         ${imageHtml}
-        <div class="question-counter" style="font-family: Arial, sans-serif; font-size: 36px; text-align: center; margin-bottom: 10px;">
+        <div class="question-counter" style="font-size: 23px; margin-bottom: 10px; color:#878787;">
           ${texts[currentLocale].result}
         </div>
         <h3 style="text-align: center;">${score} / ${quizData.length}</h3>

@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
       const currentItem = quizData[currentQuestion];
       // Add question counter above the question title
-      let html = `<div class="question-counter" style="font-size: 23px margin-bottom: 10px; color: #878787">
+      let html = `<div class="question-counter" style="font-size: 23px; margin-bottom: 10px; color: #878787">
                     Question: ${currentQuestion + 1} / ${quizData.length}
                   </div>`;
       html += `<h3>${currentItem.question}</h3>`;

@@ -19,8 +19,8 @@ document.addEventListener("DOMContentLoaded", function () {
   
   quizContainers.forEach(function(container) {
     // Set a default border on the container (5px solid black) and transition for border-color
-    container.style.border = "4px solid black";
-    container.style.transition = "border-color 0.1s ease-out";
+    container.style.border = "5px solid black";
+    container.style.transition = "border-color 0.3s ease-in-out";
     
     // Parse quiz data from the data-quiz attribute
     const quizData = JSON.parse(container.getAttribute('data-quiz'));
@@ -33,7 +33,11 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
       }
       const currentItem = quizData[currentQuestion];
-      let html = `<h3>${currentItem.question}</h3>`;
+      // Add question counter above the question title
+      let html = `<div class="question-counter" style="font-family: Arial, sans-serif; font-size: 36px; text-align: center; margin-bottom: 10px;">
+                    Question: ${currentQuestion + 1} / ${quizData.length}
+                  </div>`;
+      html += `<h3>${currentItem.question}</h3>`;
       currentItem.answers.forEach((answer, index) => {
         html += `<button class="quiz-btn" data-index="${index}">${answer}</button>`;
       });
@@ -54,7 +58,7 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     }
 
-    // Animate border feedback: correct -> green, wrong -> red, then revert
+    // Animate border feedback: green for correct, red for wrong, then revert back to black
     function animateFeedback(isCorrect) {
       container.style.borderColor = isCorrect ? "#D3FF75" : "#FF7575";
       setTimeout(function() {
@@ -71,18 +75,17 @@ document.addEventListener("DOMContentLoaded", function () {
       currentQuestion++;
       setTimeout(function() {
         loadQuestion();
-      }, 300);
+      }, 600);
     }
 
     function showResult() {
       let imageHtml = "";
-      // If the score is not perfect, show the "try again" image above the results
+      // If not a perfect score, show the "try again" image above the results, centered
       if (score !== quizData.length) {
         imageHtml = `<div style="text-align:center; margin-bottom:15px;">
                        <img src="https://cdn.prod.website-files.com/6558ae529e9653f7d61a6917/67b255ce040723aed51313f9_try-again-quiz.webp" alt="Try Again" style="max-width:100%;"/>
                      </div>`;
       }
-      
       // If perfect score, trigger confetti animation (if available)
       if (score === quizData.length && typeof confetti === 'function') {
         confetti({
@@ -91,10 +94,13 @@ document.addEventListener("DOMContentLoaded", function () {
           origin: { y: 0.6 }
         });
       }
-      // Display the localized result text and restart button, with the image (if applicable)
+      // On result screen, change the question counter area to display "Results:" in Arial 36px, then show the score
       container.innerHTML = `
         ${imageHtml}
-        <h3>${texts[currentLocale].result} ${score} / ${quizData.length}</h3>
+        <div class="question-counter" style="font-family: Arial, sans-serif; font-size: 36px; text-align: center; margin-bottom: 10px;">
+          ${texts[currentLocale].result}
+        </div>
+        <h3 style="text-align: center;">${score} / ${quizData.length}</h3>
         <button class="quiz-restart">${texts[currentLocale].restart}</button>
       `;
       container.querySelector('.quiz-restart').addEventListener('click', function() {

@@ -49,9 +49,9 @@ document.addEventListener("DOMContentLoaded", function () {
       // Attach click listeners to each answer button
       container.querySelectorAll('.quiz-btn').forEach(function(button) {
         button.addEventListener('click', function() {
-          // Send a Zaraz event on quiz button click (if Zaraz is available)
-          if (typeof Zaraz === 'function') {
-            Zaraz('track', 'quiz_click', {
+          // Send a Zaraz event on quiz button click (if zaraz is available)
+          if (typeof zaraz === 'object' && typeof zaraz.track === 'function') {
+            zaraz.track("quiz_click", {
               url: window.location.href,
               locale: currentLocale
             });

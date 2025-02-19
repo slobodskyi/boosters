@@ -49,14 +49,6 @@ document.addEventListener("DOMContentLoaded", function () {
       // Attach click listeners to each answer button
       container.querySelectorAll('.quiz-btn').forEach(function(button) {
         button.addEventListener('click', function() {
-          // Send a Zaraz event on quiz button click (if zaraz is available)
-          if (typeof zaraz === 'object' && typeof zaraz.track === 'function') {
-            zaraz.track("quiz_click", {
-              url: window.location.href,
-              locale: currentLocale
-            });
-          }
-
           selectAnswer(parseInt(this.getAttribute('data-index')));
         });
       });
@@ -71,15 +63,24 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function selectAnswer(selectedIndex) {
-      var isCorrect = (selectedIndex === quizData[currentQuestion].correct);
+      const isCorrect = (selectedIndex === quizData[currentQuestion].correct);
+
+      // Track with Zaraz, indicating correctness
+      if (typeof zaraz === 'object' && typeof zaraz.track === 'function') {
+        zaraz.track("quiz_click", {
+          correctness: isCorrect ? 'correct' : 'wrong',
+          locale: currentLocale
+        });
+      }
+
+      // Increase score if correct
       if (isCorrect) {
         score++;
       }
+
       animateFeedback(isCorrect);
       currentQuestion++;
-      setTimeout(function() {
-        loadQuestion();
-      }, 400);
+      setTimeout(loadQuestion, 400);
     }
 
     function showResult() {
